@@ -5,14 +5,14 @@ from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 
 # IMPORT DES MODULES
-from modules.Classes import *
+from modules.Classes import Theater, Showtime
 
 # On charge les variables d'environnement...
 dotenv.load_dotenv(".env")
 # et celles par défaut pour avoir la liste des cinémas
 dotenv.load_dotenv(".env.sample")
 
-WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "GrainParisArt")
+WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "Ciné Nantes")
 MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
 theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
@@ -34,11 +34,11 @@ for theater in theaters:
         "description": theater.name,
     })
 
-def getShowtimes(date):
+def get_showtimes(date):
     showtimes:list[Showtime] = []
 
     for theater in theaters:
-        showtimes.extend(theater.getShowtimes(date))
+        showtimes.extend(theater.get_showtimes(date))
 
     data = {}
 
@@ -75,13 +75,13 @@ def getShowtimes(date):
 
 showtimes = []
 for i in range(0, 7):
-    day_showtimes = getShowtimes(datetime.today()+timedelta(days=i))
+    day_showtimes = get_showtimes(datetime.today()+timedelta(days=i))
     showtimes.append(day_showtimes)
     print(f"{len(day_showtimes)} séances récupéré {i+1}/7!")
 
 app = Flask(__name__)
 
-def translateMonth(num: int):
+def translate_month(num: int):
     match num:
         case 1: return "janv"
         case 2: return "févr"
@@ -97,7 +97,7 @@ def translateMonth(num: int):
         case 12: return "déc"
         case _: return "???"
 
-def translateDay(weekday: int):
+def translate_day(weekday: int):
     match weekday:
         case 0: return "lun"
         case 1: return "mar"
@@ -124,9 +124,9 @@ def home():
     for i in range(0,7):
         day = datetime.today()+timedelta(i)
         dates.append({
-            "jour": translateDay(day.weekday()),
+            "jour": translate_day(day.weekday()),
             "chiffre": day.day,
-            "mois": translateMonth(day.month),
+            "mois": translate_month(day.month),
             "choisi": i==delta,
             "index": i
         })

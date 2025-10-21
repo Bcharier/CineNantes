@@ -77,7 +77,7 @@ class Theater:
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} name={self.name}>"
 
-    def getShowtimes(self, date: datetime, page: int = 1, showtimes: list = None) -> list[Showtime]:
+    def get_showtimes(self, date: datetime, page: int = 1, showtimes: list = None) -> list[Showtime]:
         if showtimes is None:
             showtimes = []
         
@@ -111,7 +111,7 @@ class Theater:
                 showtimes.append(Showtime(showtime_data, self, inst))
         
         if int(data['pagination']['page']) < int(data['pagination']["totalPages"]):
-            return self.getShowtimes(date, page + 1, showtimes)
+            return self.get_showtimes(date, page + 1, showtimes)
         
         return showtimes
     
@@ -134,6 +134,6 @@ if __name__ == "__main__":
     print(f"{cgr.name} ({cgr.id})")
     print(f"{cgr.location['zip']} {cgr.location['city']}")
 
-    showtimes = cgr.getShowtimes(datetime.today())
+    showtimes = cgr.get_showtimes(datetime.today())
 
     print(showtimes[0])
