@@ -1,30 +1,20 @@
 @font-face {
-    font-family: 'healTheWebA';
-    src: url("../font/HealTheWebA-Regular.otf");
-}
-
-@font-face {
-    font-family: 'healTheWebB';
-    src: url("../font/HealTheWebB-Regular.otf");
-}
-
-@font-face {
-    font-family: 'Raleway-Black';
-    src: url("../font/Raleway-Black.ttf");
-}
-
-@font-face {
     font-family: 'Montserrat-ExtraBold';
     src: url("../font/montserrat_extrabold.ttf");
 }
 
+@font-face {
+    font-family: 'VendSans';
+    src: url("../font/VendSans-VariableFont_wght.ttf");
+}
+
 body {
     margin: 0;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: 'VendSans', sans-serif;
 }
 
 h1 h2 h3 {
-    font-family: 'healTheWebB', sans-serif;
+    font-family: 'VendSans', sans-serif;
 }
 
 h3 {
@@ -41,7 +31,7 @@ h3 {
 
 p {
     font-size: 20;
-    font-family: 'healTheWebA', sans-serif;
+    font-family: 'VendSans', sans-serif;
 }
 
 .divHeader {
@@ -164,7 +154,7 @@ p {
 }
 
 .chiffre {
-    font-family: 'Montserrat-ExtraBold';
+    font-family: 'Montserrat-ExtraBold', sans-serif;
     font-size: 42px;
     margin-top: -20px;
     margin-bottom: -20px;
@@ -182,7 +172,6 @@ p {
     color: white;
     padding-left: 10px;
     box-sizing: border-box;
-    align-items: center;
     display: flex;
     align-items: center;
     filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
@@ -215,7 +204,6 @@ p {
     width: 100px;
     color: #444cf7;
     box-sizing: border-box;
-    align-items: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -296,7 +284,6 @@ a {
     position: absolute;
     background: #444cf7;
     height: 3rem;
-    ;
     width: 3rem;
     border-radius: 50%;
     animation: move 1s ease alternate infinite;
@@ -309,6 +296,14 @@ a {
 
 #loader div.box:nth-child(3)::after {
     animation-delay: 0.5s;
+}
+
+.reference-link {
+    text-decoration: underline;
+}
+
+.reference-link:hover {
+    color: #444cf7;
 }
 
 @keyframes move {
@@ -359,7 +354,6 @@ html {
     #map {
         max-width: 100vw;
         height: 400px;
-        /* width: 350px; */
         border-radius: 5px;
     }
     body {
