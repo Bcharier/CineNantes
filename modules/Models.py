@@ -21,7 +21,7 @@ class MovieModel(db.Model):
     runtime = db.Column(db.String)
     synopsis = db.Column(db.Text)
     genres = db.Column(db.String)
-    cast = db.Column(db.String)
+    actors = db.Column(db.String)
     director = db.Column(db.String)
     affiche = db.Column(db.String)
     url = db.Column(db.String)

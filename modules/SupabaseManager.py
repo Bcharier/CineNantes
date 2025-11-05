@@ -82,7 +82,8 @@ class SupabaseManager:
                     'end_timestamp': end_date
                 }
             ).execute().data
-
-def get_theaters(self) -> list:
-    """Get all theaters"""
-    return self.supabase.table('theaters').select('*').execute().data
+    
+    def get_theaters(self) -> list:
+        """Get all theaters from the database."""
+        response = self.supabase.table('theaters').select('*').execute()
+        return response.data if hasattr(response, 'data') else []

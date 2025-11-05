@@ -60,7 +60,7 @@ class Movie:
         self.runtime = data.get("runtime", "")
         self.synopsis = data.get("synopsis", "")
         self.genres = data.get("genres", [])
-        self.cast = data.get("cast", [])
+        self.actors = data.get("cast", [])
         self.director = data.get("directors", "")
         self.affiche = data.get("poster", {}).get("url", "")
         
@@ -69,7 +69,7 @@ class Movie:
         except:
             self.affiche = "/static/images/nocontent.png"
             
-        self.cast = []
+        self.actors = []
 
         # Noms des acteurs
         for actor in data["cast"]["edges"]:
@@ -83,7 +83,7 @@ class Movie:
 
             name = f'{actor["node"]["actor"]["firstName"]} {actor["node"]["actor"]["lastName"]}'
             name = name.lstrip()
-            self.cast.append(name)
+            self.actors.append(name)
 
         # Nom du réalisateur
         if len(data["credits"]) == 0:
