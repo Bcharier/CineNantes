@@ -1,128 +1,39 @@
-import dotenv
-import json
-import os
 from flask import Flask, render_template, request
 from datetime import datetime, timedelta
+import os
+import json
+from dotenv import load_dotenv
+from modules.SupabaseManager import SupabaseManager
 
-# IMPORT DES MODULES
-from modules.Classes import Theater, Showtime
-
-# On charge les variables d'environnement...
-dotenv.load_dotenv(".env")
-# et celles par défaut pour avoir la liste des cinémas
-dotenv.load_dotenv(".env.sample")
+# Load environment variables
+load_dotenv(".env")
+load_dotenv(".env.sample")
 
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "Ciné Nantes")
 MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
-theaters_json = json.loads(os.environ.get("THEATERS", "[]"))
-
-theaters: list[Theater] = []
-for theater in theaters_json:
-    theaters.append(Theater({
-        "name": theater["name"],
-        "internalId": theater["id"],
-        "latitude": theater["latitude"],
-        "longitude": theater["longitude"],
-        "location": None
-    }))
-
-theater_locations = []
-for theater in theaters:
-    theater_locations.append({
-        "coordinates": [theater.longitude, theater.latitude],
-        "description": theater.name,
-    })
-
-def get_showtimes(date):
-    showtimes:list[Showtime] = []
-
-    for theater in theaters:
-        showtimes.extend(theater.get_showtimes(date))
-
-    data = {}
-
-    for showtime in showtimes:
-        movie = showtime.movie
-        theater = showtime.theater
-
-        if showtime.movie.title not in data.keys():
-            data[movie.title] = {
-                "title": movie.title,
-                "duree": movie.runtime,
-                "genres": ", ".join(movie.genres),
-                "casting": ", ".join(movie.cast),
-                "realisateur": movie.director,
-                "synopsis": movie.synopsis,
-                "affiche": movie.affiche,
-                "director": movie.director,
-                "wantToSee": movie.wantToSee,
-                "url": f"https://www.allocine.fr/film/fichefilm_gen_cfilm={movie.id}.html",
-                "seances": {}
-            }
-
-
-        if theater.name not in data[movie.title]["seances"].keys():
-            data[movie.title]["seances"][theater.name] = []
-
-        data[movie.title]["seances"][theater.name].append(showtime.startsAt.strftime("%H:%M"))
-
-    data = data.values()
-
-    data = sorted(data, key=lambda x: x["wantToSee"], reverse=True)
-
-    return data
-
-showtimes = []
-for i in range(0, 7):
-    day_showtimes = get_showtimes(datetime.today()+timedelta(days=i))
-    showtimes.append(day_showtimes)
-    print(f"{len(day_showtimes)} séances récupéré {i+1}/7!")
-
+# Initialize Flask and Supabase
 app = Flask(__name__)
+supabase = SupabaseManager()
 
-def translate_month(num: int):
-    match num:
-        case 1: return "janv"
-        case 2: return "févr"
-        case 3: return "mars"
-        case 4: return "avr"
-        case 5: return "mai"
-        case 6: return "juin"
-        case 7: return "juil"
-        case 8: return "août"
-        case 9: return "sept"
-        case 10: return "oct"
-        case 11: return "nov"
-        case 12: return "déc"
-        case _: return "???"
+def translate_day(day: int) -> str:
+    days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
+    return days[day]
 
-def translate_day(weekday: int):
-    match weekday:
-        case 0: return "lun"
-        case 1: return "mar"
-        case 2: return "mer"
-        case 3: return "jeu"
-        case 4: return "ven"
-        case 5: return "sam"
-        case 6: return "dim"
-        case _: return "???"
-
-@app.route('/health')
-def health():
-    return "OK"
+def translate_month(month: int) -> str:
+    months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+    return months[month - 1]
 
 @app.route('/')
 def home():
     delta = request.args.get("delta", default=0, type=int)
-
     if delta > 6: delta = 6
     if delta < 0: delta = 0
 
+    # Build dates for navigation
     dates = []
-
     for i in range(0,7):
-        day = datetime.today()+timedelta(i)
+        day = datetime.today() + timedelta(i)
         dates.append({
             "jour": translate_day(day.weekday()),
             "chiffre": day.day,
@@ -131,15 +42,64 @@ def home():
             "index": i
         })
 
+    # Get date range for query
+    target_date = datetime.today() + timedelta(days=delta)
+    start_date = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_date = start_date + timedelta(days=1)
+
+    # Get showtimes from Supabase
+    showtimes = supabase.get_showtimes_for_date(start_date.isoformat(), end_date.isoformat())
+
+    # Process into template-friendly format
+    movies_dict = {}
+    for show in showtimes:
+        movie = show['movie']
+        theater = show['theater']
+        
+        if movie['title'] not in movies_dict:
+            movies_dict[movie['title']] = {
+                "title": movie['title'],
+                "duree": movie['runtime'],
+                "genres": movie['genres'],
+                "casting": movie['actors'], 
+                "realisateur": movie['director'],
+                "synopsis": movie['synopsis'],
+                "affiche": movie['affiche'],
+                "director": movie['director'],
+                "url": movie['url'],
+                "seances": {}
+            }
+        
+        if theater['name'] not in movies_dict[movie['title']]["seances"]:
+            movies_dict[movie['title']]["seances"][theater['name']] = []
+        
+        movies_dict[movie['title']]["seances"][theater['name']].append(
+            datetime.fromisoformat(show['starts_at']).strftime("%H:%M")
+        )
+
+    # Sort movies by title
+    films = sorted(
+        movies_dict.values(), 
+        key=lambda x: x["title"], 
+    )
+
+    # Get theater locations for map
+    theaters = supabase.get_theaters()
+    theater_locations = [{
+        "name": t['name'],
+        "coordinates": [t['longitude'], t['latitude']]
+    } for t in theaters]
+
     return render_template(
         'index.html',
         page_actuelle='home',
-        films=showtimes[delta],
+        films=films,
         dates=dates,
         theater_locations=theater_locations,
+        theater_urls={t['name']: t['url'] for t in theaters},
         website_title=WEBSITE_TITLE,
         mapbox_token=MAPBOX_TOKEN,
     )
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
