@@ -5,6 +5,10 @@ import json
 from dotenv import load_dotenv
 from modules.SupabaseManager import SupabaseManager
 
+# Debug logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 # Load environment variables
 load_dotenv(".env")
 load_dotenv(".env.sample")
