@@ -6,9 +6,9 @@ from typing import List, Dict, Any
 class SupabaseManager:
     def __init__(self):
         supabase_url = os.environ.get("SUPABASE_URL")
-        supabase_key = os.environ.get("SUPABASE_KEY")
+        supabase_key = os.environ.get("PUBLIC_SUPABASE_ANON_KEY")
         if not supabase_url or not supabase_key:
-            raise ValueError("Missing SUPABASE_URL or SUPABASE_KEY environment variables")
+            raise ValueError("Missing SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY environment variables")
         
         self.supabase: Client = create_client(supabase_url, supabase_key)
 

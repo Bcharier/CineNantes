@@ -69,9 +69,7 @@
     {% for cinename, seances in film.seances.items() %}
     <div class="seance_container">
         <div class="cinema">
-            <p><a href="{{theater_urls.get(cinename)}}" target="_blank" rel="noopener noreferrer">
-              {{cinename}}
-           </a></p>
+            <p><a href="{{theater_urls.get(cinename)}}" target="_blank" rel="noopener noreferrer">{{cinename}}</a></p>
         </div>
         <div class="horaires_container">
             {% for seance in seances %}
