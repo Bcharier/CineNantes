@@ -17,6 +17,8 @@
 
 <!-- <div id="map"></div> -->
 
+<input type="text" id="movieSearch" class="input-search" placeholder="Rechercher un film...">
+
 <div class="planning">
     <div class="container_titrePlanning">
         <div class="contenu_edt">
@@ -24,7 +26,7 @@
             <div class="calendrier">
             {% for date in dates %}
                 {% if date.choisi %}
-                <div class="date-selectionne">
+                <div class="date date-selectionne">
                     <p class="jour">{{date.jour}}</p>
                     <p class="chiffre">{{date.chiffre}}</p>
                     <p class="mois">{{date.mois}}</p>
@@ -43,46 +45,44 @@
         </div>
         <div class="line"></div>
     </div>
+<div class="container_infoFilm">
     {% for film in films %}
-    <div class="container_infoFilm">
-        <img src={{ film.affiche }} class="affiche" />
-        <div class="infoFilm">
-            <div class="blur-background"></div>
-            <div>
-                <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a></h3>
-                <div class="info-content">
-                    <p class="realisateur">Réalisateur : {{film.director}}</p>
-                    <p class="casting">Casting : {{ film.casting }}</p>
-                    <p class="genre">Genre : {{ film.genres }}</p>
-                    <p class="duree">Durée : {{film.duree}}</p>
-                </div>
-                <div class="synopsis_container">
-                    <p class="synopsis">
-                        {{film.synopsis}}
-                    </p>
+    <div class="film-container">
+        <div class="film-content">
+            <img src={{ film.affiche }} class="affiche" alt="Affiche du film {{film.title}}" />
+            <div class="infoFilm">
+                <div>
+                    <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a></h3>
+                    <div class="info-content">
+                        <p class="realisateur">Réalisateur : {{film.director}}</p>
+                        <p class="casting">Casting : {{ film.casting }}</p>
+                        <p class="genre">Genre : {{ film.genres }}</p>
+                        <p class="duree">Durée : {{film.duree}}</p>
+                    </div>
+                    <div class="synopsis_container">
+                        <p class="synopsis">
+                            {{film.synopsis | safe }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div style="height: 10px;"></div>
-    {% for cinename, seances in film.seances.items() %}
-    <div class="seance_container">
-        <div class="cinema">
-            <p><a href="{{theater_urls.get(cinename)}}" target="_blank" rel="noopener noreferrer">{{cinename}}</a></p>
-        </div>
-        <div class="horaires_container">
-            {% for seance in seances %}
-            <div class="horaire">
-                <p>{{seance}}</p>
+        {% for cinename, seances in film.seances.items() %}
+            <div class="seance_container">
+                <div class="cinema">
+                    <p><a href="{{theater_urls.get(cinename)}}" target="_blank" rel="noopener noreferrer">{{cinename}}</a></p>
+                </div>
+                <div class="horaires_container">
+                    {% for seance in seances %}
+                    <div class="horaire">
+                        <p>{{seance}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-            {% endfor %}
+        {% endfor %}
         </div>
-    </div>
-    <div class="responsive-petite-div"></div>
-    {% endfor %}
-    <div class="responsive-div"></div>
-    {% endfor %}
+        {% endfor %}
 
 </div>
 
