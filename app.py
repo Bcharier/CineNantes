@@ -18,7 +18,13 @@ MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
 # Initialize Flask and Supabase
 app = Flask(__name__)
-supabase = SupabaseManager()
+
+try:
+    supabase = SupabaseManager()
+except Exception as e:
+    import sys
+    print("Supabase error:", e, file=sys.stderr)
+    raise
 
 def translate_day(day: int) -> str:
     days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
