@@ -45,6 +45,7 @@ p {
 }
 
 .mobile-filter-button {
+    display: none;
     position: fixed;
     z-index: 100;
     top: 1rem;
@@ -469,6 +470,10 @@ html {
     p {
         font-size: 12px;
         margin-block-start: -5px;
+    }
+
+    .mobile-filter-button {
+        display: inline-block;
     }
 
     .filter-container {
