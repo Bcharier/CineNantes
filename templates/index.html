@@ -15,15 +15,23 @@
 <img src="../static/images/background.svg" class="background_svg" aria_hidden="true"/>
 
 
-<!-- <div id="map"></div> -->
+<button class="mobile-filter-button"><img src="/static/images/filter.png" alt="Bouton pour afficher les filtres par cinéma"></button>
+<div class="mobile-filter-container">
+    <div class="mobile-theater-container">
+        {% for theater in theaters %}
+        <button class="theater-filter">{{ theater.name }}</button>
+        {% endfor %}
+    </div>
+</div>
 
 <input type="text" id="movieSearch" class="input-search" placeholder="Rechercher un film...">
-<select id="theaterFilter" style="margin-bottom: 1em;">
-  <option value="">-- Toutes les salles --</option>
-  {% for theater in theaters %}
-    <option value="{{ theater.name }}">{{ theater.name }}</option>
-  {% endfor %}
-</select>
+
+<div class="filter-container">
+    {% for theater in theaters %}
+        <button class="theater-filter">{{ theater.name }}</button>
+    {% endfor %}
+</div>
+
 <div class="planning">
     <div class="container_titrePlanning">
         <div class="contenu_edt">
@@ -74,7 +82,7 @@
             </div>
         </div>
         {% for cinename, seances in film.seances.items() %}
-            <div class="seance_container">
+            <div class="seance_container" data-theater="{{ cinename }}">
                 <div class="cinema">
                     <a href="{{theater_urls.get(cinename)}}" target="_blank" rel="noopener noreferrer">{{cinename}}</a>
                 </div>
@@ -91,35 +99,5 @@
         {% endfor %}
 
 </div>
-
-
-
-<!-- <script>
-    mapboxgl.accessToken = {{ mapbox_token | tojson }};
-
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [2.3522, 48.8566],
-        zoom: 12
-    });
-
-    map.addControl(new mapboxgl.NavigationControl());
-
-    var locations = {{ theater_locations | tojson }};
-
-    locations.forEach(function (location) {
-        var el = document.createElement('div');
-        el.className = 'custom-marker';
-
-        var popup = new mapboxgl.Popup({ offset: 25 }).setText(location.description);
-
-        new mapboxgl.Marker(el)
-            .setLngLat(location.coordinates)
-            .setPopup(popup)
-            .addTo(map);
-    });
-</script> -->
-
 
 {% endblock %}

@@ -54,6 +54,7 @@ def home():
 
     # Get showtimes from Supabase
     showtimes = supabase.get_showtimes_for_date(start_date.isoformat(), end_date.isoformat())
+    
 
     # Process into template-friendly format
     movies_dict = {}
@@ -83,6 +84,11 @@ def home():
             datetime.fromisoformat(show['starts_at']).strftime("%H:%M")
         )
 
+    # Sort showtimes for each theater by time
+    for movie in movies_dict.values():
+        for theater_name, seances in movie["seances"].items():
+            seances.sort()    
+
     # Sort movies by title
     films = sorted(
         movies_dict.values(), 
@@ -91,17 +97,13 @@ def home():
 
     # Get theater locations for map
     theaters = supabase.get_theaters()
-    theater_locations = [{
-        "name": t['name'],
-        "coordinates": [t['longitude'], t['latitude']]
-    } for t in theaters]
 
     return render_template(
         'index.html',
         page_actuelle='home',
         films=films,
         dates=dates,
-        theater_locations=theater_locations,
+        theaters=theaters,
         theater_urls={t['name']: t['url'] for t in theaters},
         website_title=WEBSITE_TITLE,
         mapbox_token=MAPBOX_TOKEN,
