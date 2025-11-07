@@ -95,6 +95,22 @@ p {
     margin-top: 20px;
 }
 
+.infoFilm {
+    position: relative;
+}
+
+.pin-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
+.pinned {
+    order: -1;
+}
+
 .titreFilm {
     margin: 0.5rem 0.5rem 0.5rem 0.2rem;
     transition: all 0.2s;
@@ -104,10 +120,6 @@ p {
     position: relative;
     transition: 0.2s;
 }
-
-/* .titreFilm > a:hover {
-    color: #444cf7;
-} */
 
 .titreFilm > a::after {
     content: '';

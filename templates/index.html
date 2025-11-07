@@ -18,7 +18,12 @@
 <!-- <div id="map"></div> -->
 
 <input type="text" id="movieSearch" class="input-search" placeholder="Rechercher un film...">
-
+<select id="theaterFilter" style="margin-bottom: 1em;">
+  <option value="">-- Toutes les salles --</option>
+  {% for theater in theaters %}
+    <option value="{{ theater.name }}">{{ theater.name }}</option>
+  {% endfor %}
+</select>
 <div class="planning">
     <div class="container_titrePlanning">
         <div class="contenu_edt">
@@ -49,21 +54,22 @@
     {% for film in films %}
     <div class="film-container">
         <div class="film-content">
-            <img src={{ film.affiche }} class="affiche" alt="Affiche du film {{film.title}}" />
+            <img src="{{ film.affiche if film.affiche else url_for('static', filename='images/nocontent.png') }}"
+                alt="Affiche du film {{film.title}}"
+                class="affiche" />            
             <div class="infoFilm">
-                <div>
-                    <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a></h3>
-                    <div class="info-content">
-                        <p class="realisateur">Réalisateur : {{film.director}}</p>
-                        <p class="casting">Casting : {{ film.casting }}</p>
-                        <p class="genre">Genre : {{ film.genres }}</p>
-                        <p class="duree">Durée : {{film.duree}}</p>
-                    </div>
-                    <div class="synopsis_container">
-                        <p class="synopsis">
-                            {{film.synopsis | safe }}
-                        </p>
-                    </div>
+                <img src="/static/images/push-pin.png" alt="Bouton pour épingler un film" class="pin-icon" data-movie-id="{{ film.id }}"/>
+                <h3 class="titreFilm"><a href="{{ film.url }}" target="_blank">{{film.title}}</a></h3>
+                <div class="info-content">
+                    <p class="realisateur">Réalisateur : {{film.director}}</p>
+                    <p class="casting">Casting : {{ film.casting }}</p>
+                    <p class="genre">Genre : {{ film.genres }}</p>
+                    <p class="duree">Durée : {{film.duree}}</p>
+                </div>
+                <div class="synopsis_container">
+                    <p class="synopsis">
+                        {{film.synopsis | safe }}
+                    </p>
                 </div>
             </div>
         </div>

@@ -63,6 +63,7 @@ def home():
         
         if movie['title'] not in movies_dict:
             movies_dict[movie['title']] = {
+                "id": movie['id'],
                 "title": movie['title'],
                 "duree": movie['runtime'],
                 "genres": movie['genres'],
