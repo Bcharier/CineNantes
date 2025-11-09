@@ -14,7 +14,6 @@ load_dotenv(".env")
 load_dotenv(".env.sample")
 
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "Ciné Nantes")
-MAPBOX_TOKEN = os.environ.get("MAPBOX_TOKEN", "")
 
 # Initialize Flask and Supabase
 app = Flask(__name__)
@@ -95,7 +94,6 @@ def home():
         key=lambda x: x["title"], 
     )
 
-    # Get theater locations for map
     theaters = supabase.get_theaters()
 
     return render_template(
@@ -106,7 +104,6 @@ def home():
         theaters=theaters,
         theater_urls={t['name']: t['url'] for t in theaters},
         website_title=WEBSITE_TITLE,
-        mapbox_token=MAPBOX_TOKEN,
     )
 
 if __name__ == "__main__":
