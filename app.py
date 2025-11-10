@@ -78,15 +78,21 @@ def home():
         
         if theater['name'] not in movies_dict[movie['title']]["seances"]:
             movies_dict[movie['title']]["seances"][theater['name']] = []
-        
-        movies_dict[movie['title']]["seances"][theater['name']].append(
-            datetime.fromisoformat(show['starts_at']).strftime("%H:%M")
-        )
+
+        # Extract language and accessibility from show
+        lang = "VO" if show.get("diffusion_version", "").startswith("ORIGINAL") else "VF"
+        accessible = "DISABLED_ACCESS" in (show.get("services") or "")
+
+        movies_dict[movie['title']]["seances"][theater['name']].append({
+            "time": datetime.fromisoformat(show['starts_at']).strftime("%H:%M"),
+            "lang": lang,
+            "accessible": accessible
+        })
 
     # Sort showtimes for each theater by time
     for movie in movies_dict.values():
         for theater_name, seances in movie["seances"].items():
-            seances.sort()    
+            seances.sort(key=lambda s: s["time"])   
 
     # Sort movies by title
     films = sorted(

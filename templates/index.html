@@ -12,9 +12,6 @@
     </div>
 </a>
 
-<img src="../static/images/background.svg" class="background_svg" aria_hidden="true"/>
-
-
 <button class="mobile-filter-button"><img src="/static/images/filter.png" alt="Bouton pour afficher les filtres par cinéma"></button>
 <div class="mobile-filter-container">
     <div class="mobile-theater-container">
@@ -64,6 +61,7 @@
         <div class="film-content">
             <img src="{{ film.affiche if film.affiche else url_for('static', filename='images/nocontent.png') }}"
                 alt="Affiche du film {{film.title}}"
+                loading="lazy"
                 class="affiche" />            
             <div class="infoFilm">
                 <img src="/static/images/push-pin.png" alt="Bouton pour épingler un film" class="pin-icon" data-movie-id="{{ film.id }}"/>
@@ -89,7 +87,13 @@
                 <div class="horaires_container">
                     {% for seance in seances %}
                     <div class="horaire">
-                        <p>{{seance}}</p>
+                        <p>
+                            {{ seance.time }}
+                            <span class="lang">{{ seance.lang }}</span>
+                            {% if seance.accessible %}
+                                <span class="accessible" title="Accessible fauteuil roulant"><img src="{{url_for('static', filename='images/disabilities.png')}}" alt="Séance accessible pour les personnes à mobilité réduite"></span>
+                            {% endif %}
+                        </p>
                     </div>
                     {% endfor %}
                 </div>

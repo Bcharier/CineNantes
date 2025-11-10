@@ -184,7 +184,9 @@ p {
 
 .affiche {
     width: 200px;
-    height: 288px;
+    max-height: 265px;
+    aspect-ratio: 0.75;
+    object-fit: contain;
     border-radius: 5px;
     padding-right: 30px;
 }
@@ -305,19 +307,35 @@ p {
 }
 
 .horaire {
+    position: relative;
     background-color: white;
     border-radius: 5px;
-    height: 40px;
-    width: 100px;
+    width: 110px;
     color: #444cf7;
-    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 10px;
-    flex-shrink: 0;
-    flex-grow: 0;
     border: rgba(0,0,0,0.1) solid 0.1px;
+}
+
+.lang {
+    font-size: 0.8rem;
+    margin-left: 0.3em;
+    font-weight: bold;
+    color: black;
+    position: absolute;
+    bottom: 0.2rem;
+    left: 0.2rem;
+    opacity: 0.7;
+}
+.accessible > img {
+    position: absolute;
+    bottom: 0.2rem;
+    right: 0.2rem;
+    object-fit: contain;
+    width: 1.2rem;
+    opacity: 0.7;
 }
 
 footer {
