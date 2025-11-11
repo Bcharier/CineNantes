@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Toutes les séances de cinéma de la métropole nantaise en un seul endroit"
+    <meta name="description" content="Toutes les séances de cinéma de la métropole nantaise en un seul endroit">
+    <meta property="og:title" content="CineNantes" />
+    <meta property="og:description" content="Tous les horaires des séances de cinéma à Nantes !" />
+    <meta property="og:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
+    <meta property="og:url" content="{{ request.url_root }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
     <link rel="preload" href="{{url_for('static', filename='css/main.css')}}" as="style">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <link rel="shortcut icon" type="image/png" href="static/images/favicon.png"/>
