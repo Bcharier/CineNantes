@@ -29,32 +29,31 @@
     {% endfor %}
 </div>
 
-<div class="planning">
-    <div class="container_titrePlanning">
-        <div class="contenu_edt">
-            <h2 class="txt_edt">Séances</h2>
-            <div class="calendrier">
-            {% for date in dates %}
-                {% if date.choisi %}
-                <div class="date date-selectionne">
+<div class="calendrier">
+    {% for date in dates %}
+        {% if date.choisi %}
+            <div class="date date-selectionne">
+                <p class="jour">{{date.jour}}</p>
+                <p class="chiffre">{{date.chiffre}}</p>
+                <p class="mois">{{date.mois}}</p>
+            </div>
+            {% else %}
+            <a href="{{ url_for('home', delta=date.index) }}">
+                <div class="date">
                     <p class="jour">{{date.jour}}</p>
                     <p class="chiffre">{{date.chiffre}}</p>
                     <p class="mois">{{date.mois}}</p>
                 </div>
-                {% else %}
-                <a href="{{ url_for('home', delta=date.index) }}">
-                    <div class="date">
-                        <p class="jour">{{date.jour}}</p>
-                        <p class="chiffre">{{date.chiffre}}</p>
-                        <p class="mois">{{date.mois}}</p>
-                    </div>
-                </a>
-                {% endif %}
-            {% endfor %}
-            </div>
-        </div>
-        <div class="line"></div>
-    </div>
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="container-planning-header">
+    <h2 class="planning-title">Séances</h2>
+    <div class="line"></div>
+</div>
+
 <div class="container_infoFilm">
     {% for film in films %}
     <div class="film-container">
@@ -72,11 +71,9 @@
                     <p class="genre">Genre : {{ film.genres }}</p>
                     <p class="duree">Durée : {{film.duree}}</p>
                 </div>
-                <div class="synopsis_container">
-                    <p class="synopsis">
-                        {{film.synopsis | safe }}
-                    </p>
-                </div>
+                <p class="synopsis">
+                    {{film.synopsis | safe }}
+                </p>
             </div>
         </div>
         {% for cinename, seances in film.seances.items() %}
@@ -101,7 +98,6 @@
         {% endfor %}
         </div>
         {% endfor %}
-
 </div>
 
 {% endblock %}
