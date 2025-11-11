@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 load_dotenv(".env")
 load_dotenv(".env.sample")
 
-WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "Ciné Nantes")
+WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE")
 
 # Initialize Flask and Supabase
 app = Flask(__name__)

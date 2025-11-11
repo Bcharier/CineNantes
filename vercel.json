@@ -3,12 +3,26 @@
         {
             "src": "app.py",
             "use": "@vercel/python"
+        },
+        {
+            "src": "api/populate_db.py",
+            "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
             "dest": "app.py"
+        }
+    ],
+    "crons": [
+        {
+            "path": "/api/populate_db",
+            "schedule": "0 3 * * *"
+        },
+        {
+            "path": "/api/cleanup_showtimes",
+            "schedule": "0 4 * * *"
         }
     ]
 }
