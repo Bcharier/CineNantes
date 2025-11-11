@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Toutes les séances de cinéma de la métropole nantaise en un seul endroit">
-    <meta property="og:title" content="CineNantes" />
-    <meta property="og:description" content="Tous les horaires des séances de cinéma à Nantes !" />
-    <meta property="og:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
-    <meta property="og:url" content="{{ request.url_root }}" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
-    <link rel="preload" href="{{url_for('static', filename='css/main.css')}}" as="style">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-    <link rel="shortcut icon" type="image/png" href="static/images/favicon.png"/>
-    <title>{{ website_title }}</title>
-    {% block head %} {% endblock %}
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Toutes les séances de cinéma de la métropole nantaise en un seul endroit">
+        <meta property="og:title" content="CineNantes" />
+        <meta property="og:description" content="Tous les horaires des séances de cinéma à Nantes !" />
+        <meta property="og:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
+        <meta property="og:url" content="{{ request.url_root }}" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="{{ url_for('static', filename='images/favicon.png', _external=True) }}" />
+        <link rel="preload" href="{{url_for('static', filename='css/main.css')}}" as="style">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <link rel="shortcut icon" type="image/png" href="static/images/favicon.png"/>
+        <title>{{ website_title }}</title>
+        {% block head %} {% endblock %}
+    </head>
 
-<header id="headerTop">
-    <h1 class="textLogo_header">{{ website_title }}</h1>
-</header>
-<body>
-    {% block body %} {% endblock %}
-</body> 
+    <header id="headerTop">
+        <h1 class="textLogo_header">{{ website_title }}</h1>
+    </header>
+    <body>
+        {% block body %} {% endblock %}
+    </body> 
 
-<footer>
-    <p>Réalisé par <a href="https://github.com/Bcharier" class="reference-link">Baptiste Charier</a> à partir d'une idée originale de <a class="reference-link" href="https://www.youtube.com/Sol%C3%A8neDRN">Solène Derniaux</a></p>
-</footer>
+    <footer>
+        <p>Réalisé par <a href="https://github.com/Bcharier" class="reference-link">Baptiste Charier</a> à partir d'une idée originale de <a class="reference-link" href="https://www.youtube.com/Sol%C3%A8neDRN">Solène Derniaux</a></p>
+    </footer>
 
-<script src="{{ url_for('static', filename='js/search.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/pin.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/filters.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/search.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/pin.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/filters.js') }}" defer></script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script src="/_vercel/insights/script.js" defer></script>
+    <script src="/_vercel/speed-insights/script.js" defer></script>
 </html>
