@@ -375,7 +375,7 @@ footer {
   }
 
     body {
-        margin: 0 5%;
+        margin: 0 1rem;
     }
 
     p {
@@ -488,7 +488,7 @@ footer {
     .titreFilm {
         font-size: 18px;
         margin: 0.2rem 0 0 0.2rem;
-        max-width: 90%;
+        max-width: 80%;
     }
 
     .pin-icon {
