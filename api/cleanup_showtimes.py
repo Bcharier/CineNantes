@@ -6,6 +6,15 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from modules.SupabaseManager import SupabaseManager
 
 def handler(request):
+    # Get secret from environment
+    expected_secret = os.environ.get("API_SECRET")
+    # Get secret from request (header or query param)
+    provided_secret = None
+    if request:
+        provided_secret = request.headers.get("x-api-secret") or request.args.get("secret")
+    if expected_secret is None or provided_secret != expected_secret:
+        return (HTTPStatus.FORBIDDEN, "Forbidden: Invalid or missing API secret.")
+
     supabase = SupabaseManager()
     today = datetime.now().date().isoformat()
     try:
