@@ -8,10 +8,15 @@
     src: url("../font/VendSans-VariableFont_wght.ttf");
 } 
 
+:root {
+    font-size: 16px;
+}
+
 body {
     margin: 0 10%;
     font-family: 'VendSans', sans-serif;
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 html {
@@ -23,7 +28,7 @@ h1, h2, h3 {
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 p {
@@ -106,7 +111,7 @@ a {
     flex-direction: column;
     justify-content: space-between;
     top: 5rem;
-    left: 1rem;
+    left: 1%;
     gap: 0.5rem;
     margin-left: 1rem;
 }
@@ -117,45 +122,28 @@ a {
     align-items: center;
     border-radius: 10px;
     width: 80px;
-    height: 100px;
+    height: 80px;
     justify-content: center;
     gap: 0.5rem;
-}
-
-.date:hover {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #444cf7;
-    color: white;
-    border-radius: 10px;
-    width: 80px;
-    height: 100px;
-    justify-content: center;
-    filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
+    padding: 0.2rem;
     transition: all 0.2s;
 }
 
-.date-selectionne {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.date:hover {
     background-color: #444cf7;
     color: white;
-    border-radius: 10px;
-    width: 80px;
-    height: 100px;
-    justify-content: center;
     filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
 }
 
-.mois {
-    margin-bottom: 20px;
+.date-selectionne {
+    background-color: #444cf7;
+    color: white;
+    filter: drop-shadow(2mm 6mm 6mm rgba(2, 2, 2, 0.2));
 }
 
 .chiffre {
     font-family: 'Montserrat-ExtraBold', sans-serif;
-    font-size: 42px;
+    font-size: 2.5rem;
     margin-top: -20px;
     margin-bottom: -20px;
 }
@@ -262,7 +250,7 @@ a {
     height: 40px;
     width: 200px;
     color: white;
-    padding-left: 10px;
+    padding-left: 0.7rem;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -288,6 +276,7 @@ a {
 
 .horaire_container {
     background-color: white;
+    overflow-x: auto;
 }
 
 .seance_container {
@@ -298,6 +287,8 @@ a {
 .horaires_container {
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
+
 }
 
 .horaire {
@@ -311,6 +302,8 @@ a {
     justify-content: center;
     margin-left: 10px;
     border: rgba(0,0,0,0.1) solid 0.1px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .lang {
@@ -367,8 +360,11 @@ footer {
     color: #444cf7;
 }
 
-
-@media (max-width: 576px) {
+/* Responsive Design Tablet and Mobile*/
+@media (max-width: 1000px) {
+    :root {
+        font-size: 16px;
+    }
 
       :not(.affiche) {
     box-sizing: border-box;
@@ -379,7 +375,7 @@ footer {
     }
 
     p {
-        font-size: 12px;
+        font-size: 0.8rem;
     }
 
     /* Theaters filter */
@@ -451,7 +447,7 @@ footer {
     
     .mois {
         margin-bottom: 20px;
-        font-size: 8px;
+        font-size: 0.5rem;
     }
     
     .calendrier {
@@ -460,7 +456,7 @@ footer {
     }
     
     .chiffre {
-        font-size: 20px;
+        font-size: 1.3rem;
         margin-top: 15px;
         margin-bottom: 0;
     }
@@ -486,7 +482,7 @@ footer {
     }
 
     .titreFilm {
-        font-size: 18px;
+        font-size: 1.2rem;
         margin: 0.2rem 0 0 0.2rem;
         max-width: 80%;
     }
@@ -507,7 +503,7 @@ footer {
         width: 100px;
         color: white;
         padding-right: 5px;
-        font-size: 12px;
+        font-size: 0.8rem;
         white-space: nowrap;
         overflow: hidden;
     }
@@ -520,7 +516,6 @@ footer {
     .horaires_container {
         display: flex;
         flex-direction: row;
-        max-width: 80% - 200px;
         overflow-x: auto;
     }
     
@@ -575,5 +570,13 @@ footer {
     .date:hover {
         width: 40px;
         height: 50px;
+    }
+}
+
+/* Responsive Design Mobile */
+@media (max-width: 600px) {
+
+    :root {
+        font-size: 14px;
     }
 }
